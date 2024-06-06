@@ -49,29 +49,38 @@ def format_input_text(text):
     tmp = re.findall("Diets: \[(.*)\]",text_list[1])[0]
     tmp = re.findall("Diet\(id=.*?, username=.*?, foodName=(.*?), weight=(.*?), calories=(.*?), createTime=(.*?)\)",tmp)
     for i in tmp:
-        food = [
-            '米饭', '肉类', '蛋类', '豆类', '蔬菜水果', '面食', '果汁', '牛奶', '可乐、雪碧', '水', '咖啡'
-        ][int(i[0])]
-        unit = [
-            'g', 'g', 'g', 'g', 'g', 'g', 'ml', 'ml', 'ml', 'ml', 'ml'
-        ][int(i[0])]
-        diet += f"| {food} | {i[1]}{unit} | {i[2]}kCal | {i[3]} |\n"
+        try:
+            food = [
+                '米饭', '肉类', '蛋类', '豆类', '蔬菜水果', '面食', '果汁', '牛奶', '可乐、雪碧', '水', '咖啡'
+            ][int(i[0])]
+            unit = [
+                'g', 'g', 'g', 'g', 'g', 'g', 'ml', 'ml', 'ml', 'ml', 'ml'
+            ][int(i[0])]
+            diet += f"| {food} | {i[1]}{unit} | {i[2]}kCal | {i[3]} |\n"
+        except Exception as e:
+            print(f"无法读取条目：{i}")
 
     sports = "运动：\n| 运动 | 时长 | 距离 | 消耗卡路里 | 时间 |\n| --- | --- | --- | --- | --- |\n"
     tmp = re.findall("Sports: \[(.*)\]",text_list[2])[0]
     tmp = re.findall("Sport\(id=.*?, username=.*?, GamesName=(.*?), sportsTime=(.*?), sportsDistance=(.*?), calories=(.*?), createTime=(.*?)\)",tmp)
     for i in tmp:
-        print(i)
-        sport = [
-            '跑步', '骑行', '游泳', '举铁'
-        ][int(i[0])]
-        sports += f"| {sport} | {float(i[1])/60} 分钟 | {float(i[2])/1000} km | {i[3]}kCal | {i[4]} |\n"
+        try:
+            sport = [
+                '跑步', '骑行', '游泳', '举铁'
+            ][int(i[0])]
+            sports += f"| {sport} | {float(i[1])/60} 分钟 | {float(i[2])/1000} km | {i[3]}kCal | {i[4]} |\n"
+        except Exception as e:
+            print(f"无法读取条目：{i}")
 
     body = "身体指标：\n| 体重 | 体脂率 | 心率 | 时间 |\n| --- | --- | --- | --- |\n"
     tmp = re.findall("HealthCare: \[(.*)\]",text_list[3])[0]
     tmp = re.findall("Health\(id=.*?, username=.*?, weight=(.*?), bodyFatRate=(.*?), heartRate=(.*?), createTime=(.*?)\)",tmp)
     for i in tmp:
-        body += f"| {i[0]}kg | {i[1]}% | {i[2]}bpm | {i[3]} |\n"
+
+        try:
+            body += f"| {i[0]}kg | {i[1]}% | {i[2]}bpm | {i[3]} |\n"
+        except Exception as e:
+            print(f"无法读取条目：{i}")
 
     return f'''{diet}\n{sports}\n{body}'''
 
