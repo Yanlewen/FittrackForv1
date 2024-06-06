@@ -98,3 +98,4 @@ if __name__ == '__main__':
 
     with open(args.output_path, 'w', encoding='utf-8') as f:
         f.write(response)
+    exit(0)
