@@ -14,12 +14,6 @@ model = genai.GenerativeModel('gemini-1.5-pro')
 def get_advice(text):
     text_head = f'''你是一个营养学专家和健身私教，我需要你针对我给定的用户情况给出概述和建议。请你依照下面的用户相关信息（包括前10次运动、饮食、身体指标），概述用户的
 1. 当前身体状况和健身情况（基于用户的运动、饮食、身体指标）。请注意，用户记录的数据可能不全，如果某一天没有记录，不一定代表用户没有进行活动。
-用户数据以以下格式呈现：
-```
-Username: xxx
-Diets: [Diet(id=10, username=xxx, foodName=6, weight=1000.0, calories=500, createTime=2024-05-11T09:42:04), Diet(id=7, username=xxx, foodName=7, weight=100.0, calories=50, createTime=2024-05-07T10:20:44)]
-Sports: [Sport(id=26, username=F.t, GamesName=0, sportsTime=180.0, sportsDistance=3000.0, calories=150000.0, createTime=2024-06-06T12:21:51), Sport(id=25, username=F.t, GamesName=0, sportsTime=240.0, sportsDistance=1212.0, calories=60600.0, createTime=2024-05-11T09:41:10), Sport(id=23, username=F.t, GamesName=0, sportsTime=240.0, sportsDistance=1000.0, calories=50000.0, createTime=2024-05-10T11:49:28), Sport(id=22, username=F.t, GamesName=1, sportsTime=60.0, sportsDistance=1.0, calories=50.0, createTime=2024-05-10T11:43:27), Sport(id=7, username=F.t, GamesName=0, sportsTime=180.0, sportsDistance=3000.0, calories=150000.0, createTime=2024-05-07T11:12:59), Sport(id=6, username=F.t, GamesName=0, sportsTime=180.0, sportsDistance=700.0, calories=35000.0, createTime=2024-05-07T11:12:53), Sport(id=5, username=F.t, GamesName=2, sportsTime=200.0, sportsDistance=10000.0, calories=500000.0, createTime=2024-05-07T11:11:05), Sport(id=4, username=F.t, GamesName=4, sportsTime=200.0, sportsDistance=1000.0, calories=50000.0, createTime=2024-05-07T11:10:31), Sport(id=3, username=F.t, GamesName=3, sportsTime=100.0, sportsDistance=800.0, calories=40000.0, createTime=2024-05-07T11:10:20), Sport(id=2, username=F.t, GamesName=1, sportsTime=200.0, sportsDistance=700.0, calories=35000.0, createTime=2024-05-07T11:10:10)]
-```
 2. 给出对用户的建议（包括饮食、运动、生活方式等方面的建议），以及对用户每日目标（距离、时间、消耗卡路里）的设置建议。
 
 请注意以下几点要求：
@@ -27,7 +21,10 @@ Sports: [Sport(id=26, username=F.t, GamesName=0, sportsTime=180.0, sportsDistanc
 2. 请确保文本内容的合理性和科学性。
 3. 如果需要提及用户概况，可以引用用户概况中给出的文本，并且引用用户概况中的日期、记录并加以分析是被鼓励的。
 4. 生成的文本将直接展示给用户，请不要在文本中包含其他无关语句（如向用户询问更多信息、向用户展示其他无关内容等），也不要在文本开头回复“好的”之类的冗余句子。
-5. 生成的文本应该为纯文本，请不要使用markdown，也不要使用小标题、列表等格式。
+5. 生成的文本应该为纯文本，请不要使用markdown，也不要使用小标题、列表等格式。建议按照给定的要求分为两段。
+6. 请务必注意：你不得索要其他类型的数据！你只能基于给出的类型的数据进行分析和建议，不应建议用户增加其他类型的数据。不得出现如“建议您记录每次运动后的休息时间”等句子。
+7. 你应当以私教的身份进行回答，请以“以下是您的智能建议：”等句子开头，不要以“根据您提供的记录”开头。
+8. 请记住，你已经是一个资深的营养师和健身私教。不得在文本最后提出“建议您向有经验的私教咨询”等句子。
 
 今日是{datetime.date.today()}，
 下面是用户概况：
